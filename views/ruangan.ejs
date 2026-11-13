@@ -1,0 +1,94 @@
+<%- include('partials/header') %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Data Ruangan</h3>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">+ Tambah Ruangan</button>
+</div>
+
+<% if (error) { %>
+  <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Nama Ruangan</th>
+          <th>Tipe</th>
+          <th>Kapasitas</th>
+          <th>Harga / Jam</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(item => { %>
+        <tr>
+          <td><%= item.ruangan_id %></td>
+          <td><%= item.nama_ruangan %></td>
+          <td><%= item.tipe_ruangan || '-' %></td>
+          <td><%= item.kapasitas %> Orang</td>
+          <td>Rp <%= Number(item.harga_per_jam).toLocaleString('id-ID') %></td>
+          <td>
+            <span class="badge <%= item.status_ruangan === 'Tersedia' ? 'bg-success' : 'bg-danger' %>">
+              <%= item.status_ruangan %>
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalEdit<%= item.ruangan_id %>">Edit</button>
+            <form action="/ruangan/hapus/<%= item.ruangan_id %>" method="POST" class="d-inline" onsubmit="return confirm('Hapus ruangan ini?')">
+              <button class="btn btn-sm btn-danger">Hapus</button>
+            </form>
+          </td>
+        </tr>
+
+        <div class="modal fade" id="modalEdit<%= item.ruangan_id %>" tabindex="-1">
+          <div class="modal-dialog">
+            <form action="/ruangan/edit/<%= item.ruangan_id %>" method="POST" class="modal-content">
+              <div class="modal-header"><h5 class="modal-title">Edit Ruangan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+              <div class="modal-body">
+                <div class="mb-2"><label>Nama Ruangan</label><input type="text" name="nama_ruangan" class="form-control" value="<%= item.nama_ruangan %>" required></div>
+                <div class="mb-2"><label>Tipe Ruangan</label><input type="text" name="tipe_ruangan" class="form-control" value="<%= item.tipe_ruangan %>"></div>
+                <div class="mb-2"><label>Kapasitas</label><input type="number" min="1" name="kapasitas" class="form-control" value="<%= item.kapasitas %>" required></div>
+                <div class="mb-2"><label>Harga per Jam</label><input type="number" min="0" step="0.01" name="harga_per_jam" class="form-control" value="<%= item.harga_per_jam %>" required></div>
+                <div class="mb-2">
+                  <label>Status Ruangan</label>
+                  <select name="status_ruangan" class="form-select">
+                    <option value="Tersedia" <%= item.status_ruangan === 'Tersedia' ? 'selected' : '' %>>Tersedia</option>
+                    <option value="Perbaikan" <%= item.status_ruangan === 'Perbaikan' ? 'selected' : '' %>>Perbaikan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer"><button type="submit" class="btn btn-primary">Simpan</button></div>
+            </form>
+          </div>
+        </div>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="modalTambah" tabindex="-1">
+  <div class="modal-dialog">
+    <form action="/ruangan/tambah" method="POST" class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Tambah Ruangan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div class="mb-2"><label>Nama Ruangan</label><input type="text" name="nama_ruangan" class="form-control" required></div>
+        <div class="mb-2"><label>Tipe Ruangan</label><input type="text" name="tipe_ruangan" class="form-control" placeholder="Contoh: Meeting Room, Private Office"></div>
+        <div class="mb-2"><label>Kapasitas</label><input type="number" min="1" name="kapasitas" class="form-control" required></div>
+        <div class="mb-2"><label>Harga per Jam</label><input type="number" min="0" step="0.01" name="harga_per_jam" class="form-control" required></div>
+        <div class="mb-2">
+          <label>Status Ruangan</label>
+          <select name="status_ruangan" class="form-select">
+            <option value="Tersedia">Tersedia</option>
+            <option value="Perbaikan">Perbaikan</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer"><button type="submit" class="btn btn-primary">Simpan</button></div>
+    </form>
+  </div>
+</div>
+<%- include('partials/footer') %>

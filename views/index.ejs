@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+<div class="p-4 mb-4 bg-white rounded-3 shadow-sm border">
+  <h2 class="fw-bold">Dashboard Sistem Informasi Coworking Space</h2>
+  <p class="text-muted mb-0">Kelola data pelanggan, pegawai, ruangan, reservasi, jadwal penggunaan, hingga pembayaran.</p>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-3">
+    <div class="card text-bg-primary shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Total Pelanggan</h6>
+        <h2 class="fw-bold"><%= stats.pelanggan %></h2>
+        <a href="/pelanggan" class="text-white text-decoration-none small">Kelola Pelanggan &rarr;</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-success shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Total Ruangan</h6>
+        <h2 class="fw-bold"><%= stats.ruangan %></h2>
+        <a href="/ruangan" class="text-white text-decoration-none small">Kelola Ruangan &rarr;</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-warning shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Total Reservasi</h6>
+        <h2 class="fw-bold"><%= stats.reservasi %></h2>
+        <a href="/reservasi" class="text-dark text-decoration-none small">Kelola Reservasi &rarr;</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-info shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Total Jadwal</h6>
+        <h2 class="fw-bold"><%= stats.jadwal %></h2>
+        <a href="/jadwal" class="text-dark text-decoration-none small">Kelola Jadwal &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
